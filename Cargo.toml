@@ -1,8 +1,10 @@
 [package]
 name = "stack_list"
+description = "A heapless linked-list with no-std compatibility."
 version = "0.1.0"
 authors = ["Alexandre Bury <alexandre.bury@gmail.com>"]
 edition = "2018"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
