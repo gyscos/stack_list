@@ -38,20 +38,20 @@ pub enum Node<'a, T> {
 /// # Examples
 ///
 /// ```rust
-/// stack_list::stacklist!(let my_list = [1, 2, 3, 4]);
+/// stack_list::make!(let my_list = [1, 2, 3, 4]);
 /// assert_eq!(my_list.len(), 4);
 /// assert_eq!(my_list.get(3), Some(&4));
 ///
 /// println!("{:?}", my_list);
 /// ```
 #[macro_export]
-macro_rules! stacklist {
+macro_rules! make {
     ( let $name:ident = [ $head:expr $(,)? ] ) => {
         let root = $crate::Node::Root;
         let $name = root.prepend($head);
     };
     ( let $name:ident = [ $head:expr , $($tail:expr),* ] ) => {
-        $crate::stacklist!(let n = [ $($tail),* ] );
+        $crate::make!(let n = [ $($tail),* ] );
         let $name = n.prepend($head);
     };
 }
@@ -197,7 +197,7 @@ impl<'a, T> Node<'a, T> {
     /// # Examples
     ///
     /// ```rust
-    /// stack_list::stacklist!(let a = [3, 4, 5]);
+    /// stack_list::make!(let a = [3, 4, 5]);
     /// assert_eq!(a.get(0), Some(&3));
     ///
     /// a.prepend_all_rev([2, 1].iter().copied(), |b| {
@@ -221,7 +221,7 @@ impl<'a, T> Node<'a, T> {
     /// # Examples
     ///
     /// ```rust
-    /// stack_list::stacklist!(let a = [3, 4, 5]);
+    /// stack_list::make!(let a = [3, 4, 5]);
     /// assert_eq!(a.get(0), Some(&3));
     ///
     /// a.prepend_all([1, 2].iter().copied(), |b| {
