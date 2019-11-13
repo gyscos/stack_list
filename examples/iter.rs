@@ -4,6 +4,6 @@ fn main() {
     let v: Vec<_> = dbg!(l.iter().copied().collect());
 
     stack_list::Node::from_iterator(v.iter(), |node| {
-        println!("{:?}", node.nth(2));
+        println!("{:?}", node.skip(2));
     });
 }
