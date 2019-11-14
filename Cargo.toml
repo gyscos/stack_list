@@ -1,9 +1,13 @@
 [package]
 name = "stack_list"
+description = "A heapless linked-list with no-std compatibility."
+documentation = "https://docs.rs/stack_list"
+readme = "Readme.md"
 version = "0.1.0"
 authors = ["Alexandre Bury <alexandre.bury@gmail.com>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+repository = "https://github.com/gyscos/stack_list"
+categories = ["no-std", "data-structures"]
 
 [dependencies]
