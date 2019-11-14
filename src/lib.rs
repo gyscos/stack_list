@@ -61,9 +61,22 @@ pub enum Node<'a, T> {
 /// Note that this will actually define a bunch of local stack variables (one per item in the
 /// list). This is _not_ an expression to define a standalone stack list, this would be impossible.
 ///
+/// This also only works with fixed-size literals known at compile-time. This will _not_ work with
+/// a variable. You'll want something like [`Node::from_iterator`] instead.
+///
+/// [`Node::from_iterator`]: Node::from_iterator()
+///
 /// # Examples
 ///
 /// ```rust
+/// // This would desugar to something like:
+/// // ```
+/// // let _0 = stack_list::Node::Root;
+/// // let _1 = _0.prepend(4);
+/// // let _2 = _1.prepend(3);
+/// // let _3 = _2.prepend(2);
+/// // let my_list = _3.prepend(1);
+/// // ```
 /// stack_list::make!(let my_list = [1, 2, 3, 4]);
 /// assert_eq!(my_list.len(), 4);
 /// assert_eq!(my_list.get(3), Some(&4));
@@ -80,6 +93,12 @@ macro_rules! make {
         $crate::make!(let n = [ $($tail),* ] );
         let $name = n.prepend($head);
     };
+}
+
+impl<'a, T> Default for Node<'a, T> {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl<'a, T> Node<'a, T> {
@@ -111,7 +130,7 @@ impl<'a, T> Node<'a, T> {
     where
         F: FnMut(&T),
     {
-        if let &Node::Head { ref data, ref tail } = self {
+        if let Node::Head { ref data, ref tail } = *self {
             tail.for_each_rev_inner(f);
             f(data);
         }
